@@ -1,18 +1,25 @@
 {
-	"name":"myTodo",
-	"version": "0.0.1",
-	"private": true,
-	"dependencies": {
-		"classnames": "^2.1.5",
-		"director": "^1.2.0",
-		"react": "^0.13.3",
-		"todomvc-app-css": "^2.0.0",
-		"todomvc-common": "^1.0.1"
-	},
-	"devDependencies": {
-		"babel-cli": "^6.6.5"
-	},
-	 "scripts": {
-	     "build": "babel js -d app"
-   }
+  "name": "todoapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "todoapp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThirdFloorCourse/ReactCourse.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThirdFloorCourse/ReactCourse/issues"
+  },
+  "homepage": "https://github.com/ThirdFloorCourse/ReactCourse#readme",
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  },
+  "scripts": {
+    "serve": "http-server -c-1"
+  }
 }
