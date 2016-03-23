@@ -19,7 +19,7 @@
 			})
 		}
 
-		onTodoKeyDown(event){			
+		onTodoKeyDown(event){
 			if(event.keyCode !== ENTER_KEY){
 				return;
 			}
@@ -36,7 +36,7 @@
 					todos: todolist,
 					newtodo: ""
 				});
-			}			
+			}
 		}
 
 		onCheckAllTodosChanged(event){
@@ -46,7 +46,7 @@
 			});
 			this.setState({
 				todos: todolist
-			});			
+			});
 		}
 
 		render() {
@@ -94,18 +94,18 @@
 			});
 		}
 
-		componentWillReceiveProps(nextProps){			
+		componentWillReceiveProps(nextProps){
 			console.log("nextProps.todo.completed " + nextProps.todo.completed);
 			this.setState({
 				completed: nextProps.todo.completed
-			});			
+			});
 		}
 
 		render(){
 			return <li className={this.state.completed && "completed"}>
 			    <input type="checkbox" 
 			    	className="toggle"
-			    	value = {this.state.completed}
+			    	checked = {this.state.completed}
 			    	onClick = {this.onTodoItemCheckedChange.bind(this)}
 			    />
 				<label>{this.props.todo.title}</label>
