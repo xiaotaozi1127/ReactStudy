@@ -39,9 +39,8 @@
 			}
 		}
 
-		onCheckAllTodosChanged(event){
-			var todolist = this.state.todos;
-			todolist.forEach(todo => {
+		onToggleAllItems(event){
+			var todolist = this.state.todos.map(todo => {
 				todo.completed = event.target.checked;
 			});
 			this.setState({
@@ -69,7 +68,7 @@
 					<section className="main">
 						<input className="toggle-all" 
 							   type="checkbox"
-							   onChange = {this.onCheckAllTodosChanged.bind(this)}
+							   onChange = {this.onToggleAllItems.bind(this)}
 							   />
 						<ul className="todo-list">
 						   {todoitems}
