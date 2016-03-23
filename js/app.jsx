@@ -107,6 +107,7 @@
 			    	onClick = {this.onTodoItemCheckedChange.bind(this)}
 			    />
 				<label>{this.props.todo.title}</label>
+				<button className="destroy"></button>
 			</li>
 		}
 	}
