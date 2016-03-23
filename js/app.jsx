@@ -95,7 +95,6 @@
 		}
 
 		componentWillReceiveProps(nextProps){
-			console.log("nextProps.todo.completed " + nextProps.todo.completed);
 			this.setState({
 				completed: nextProps.todo.completed
 			});
