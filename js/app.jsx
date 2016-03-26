@@ -173,7 +173,8 @@
 				    	checked = {this.state.completed}
 				    	onClick = {this.onTodoItemCheckedChange.bind(this)}
 				    />
-					<label onDoubleClick = {this.props.onBeginEdit.bind(this)}>{this.state.editText}</label>
+					<label onDoubleClick = {this.props.onBeginEdit.bind(this)}>
+							{this.state.editText}</label>
 
 					<button className="destroy"
 							onClick = {this.props.onDestroy.bind(this)}
