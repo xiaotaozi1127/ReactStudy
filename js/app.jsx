@@ -30,8 +30,9 @@
 				todolist.push({
 					id: todolist.length + 1,
 					title: this.state.newtodo.trim(),
-					completed: false
-				});
+					completed: false,
+					editing: false
+				});				
 				this.setState({
 					todos: todolist,
 					newtodo: ""
@@ -48,9 +49,53 @@
 			});
 		}
 
-		render() {
+		onTodoItemDestroy(todoid){
+			var todolist = this.state.todos;
+			var index = todolist.findIndex(todo => todo.id == todoid);
+
+			todolist.splice(index, 1);
+			for(var i = index; i < todolist.length; i++){
+				todolist[i].id = todolist[i].id - 1;
+			}
+			
+			this.setState({
+				todos: todolist
+			})
+		}
+
+		onTodoItemBeginEdit(todoid){
+			var todolist = this.state.todos;
+
+			todolist.map(todo => {
+				if(todo.id === todoid){
+					todo.editing = true;
+				}else{
+					todo.editing = false;
+				}
+			})
+			this.setState({
+				todos: todolist
+			})
+		}
+
+		onTodoItemFinishEdit(todoid){
+			var todolist = this.state.todos;
+
+			todolist.map(todo => {
+				todo.editing = false;
+			})
+			this.setState({
+				todos: todolist
+			})
+		}
+
+		render() {			
 			var todoitems = this.state.todos.map(todo =>{
-				return <ToDoItem todo={todo} />
+				return <ToDoItem todo ={todo} 
+								 onDestroy = {this.onTodoItemDestroy.bind(this, todo.id)} 
+								 onBeginEdit = {this.onTodoItemBeginEdit.bind(this, todo.id)} 
+								 onFinishEdit = {this.onTodoItemFinishEdit.bind(this, todo.id)}
+					/>
 			});
 
 			return (
@@ -83,7 +128,9 @@
 		constructor(props) {
 			super(props);
 			this.state = {
-				completed: this.props.todo.completed
+				completed: this.props.todo.completed,
+				editing: this.props.todo.editing,
+				editText: this.props.todo.title
 			}
 		}
 
@@ -93,21 +140,49 @@
 			});
 		}
 
+		onTodoItemTitleChange(event){
+			this.setState({
+				editText: event.target.value
+			})
+		}
+
+		onTodoItemKeyDown(event){
+			if(event.keyCode !== ENTER_KEY){
+				return;
+			}
+			this.props.onFinishEdit();
+			if(event.target.value === ""){
+				this.props.onDestroy();
+			}		
+		}
+
 		componentWillReceiveProps(nextProps){
 			this.setState({
-				completed: nextProps.todo.completed
+				completed: nextProps.todo.completed,
+				editing: nextProps.todo.editing,
+				editText: nextProps.todo.title
 			});
 		}
 
 		render(){
-			return <li className={this.state.completed && "completed"}>
-			    <input type="checkbox" 
-			    	className="toggle"
-			    	checked = {this.state.completed}
-			    	onClick = {this.onTodoItemCheckedChange.bind(this)}
-			    />
-				<label>{this.props.todo.title}</label>
-				<button className="destroy"></button>
+			var classname = this.state.completed ? "completed" : (this.state.editing ? "editing" : "");
+			return <li className={classname}>
+				<div className="view">
+				    <input type="checkbox" 
+				    	className="toggle"
+				    	checked = {this.state.completed}
+				    	onClick = {this.onTodoItemCheckedChange.bind(this)}
+				    />
+					<label onDoubleClick = {this.props.onBeginEdit.bind(this)}>{this.state.editText}</label>
+
+					<button className="destroy"
+							onClick = {this.props.onDestroy.bind(this)}
+					/>
+				</div>
+				<input className="edit"
+						onChange = {this.onTodoItemTitleChange.bind(this)}
+						onKeyDown = {this.onTodoItemKeyDown.bind(this)}
+					    value={this.state.editText}></input>
 			</li>
 		}
 	}
