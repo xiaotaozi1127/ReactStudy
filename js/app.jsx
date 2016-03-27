@@ -78,11 +78,14 @@
 			})
 		}
 
-		onTodoItemFinishEdit(todoid){
+		onTodoItemFinishEdit(todoid, text){
 			var todolist = this.state.todos;
 
 			todolist.map(todo => {
 				todo.editing = false;
+				if(todo.id === todoid){
+					todo.title = text;
+				}
 			})
 			this.setState({
 				todos: todolist
@@ -150,7 +153,8 @@
 			if(event.keyCode !== ENTER_KEY){
 				return;
 			}
-			this.props.onFinishEdit();
+			this.props.onFinishEdit(event.target.value);
+			
 			if(event.target.value === ""){
 				this.props.onDestroy();
 			}		
@@ -174,7 +178,7 @@
 				    	onClick = {this.onTodoItemCheckedChange.bind(this)}
 				    />
 					<label onDoubleClick = {this.props.onBeginEdit.bind(this)}>
-							{this.state.editText}</label>
+							{this.props.todo.title}</label>
 
 					<button className="destroy"
 							onClick = {this.props.onDestroy.bind(this)}
